@@ -61,7 +61,10 @@ ldap:
     enabled: false
     bind_dn: ""
     password: ""
-
+  
+  # Failback to local users in case of LDAP authentication failure. 
+  faillback_to_local: false 
+  
   # Portus needs an email for each user, but there's no standard way to get
   # that from LDAP servers. You can tell Portus how to get the email from users
   # registered in the LDAP server with this configurable value. There are three

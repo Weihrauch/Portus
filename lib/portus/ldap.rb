@@ -154,7 +154,7 @@ module Portus
       if user.valid?
         session[:first_login] = true if created
         success!(user)
-      elsif !APP_CONFIG["ldap"]["faillback_to_local"].empty? and APP_CONFIG["ldap"]["faillback_to_local"]
+      elsif !APP_CONFIG["ldap"]["faillback_to_local"].empty? && APP_CONFIG["ldap"]["faillback_to_local"]
 	fail(user.errors.full_messages.join(","))
       else
         fail!(user.errors.full_messages.join(","))

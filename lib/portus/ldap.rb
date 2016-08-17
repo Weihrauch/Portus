@@ -37,11 +37,12 @@ module Portus
         # it if it doesn't exist).
         if @ldap.bind_as(bind_options) 
            portus_login! 
-        elsif !APP_CONFIG["ldap"]["faillback_to_local"].empty? && APP_CONFIG["ldap"]["faillback_to_local"]
+        elsif APP_CONFIG["ldap"].has_key?("faillback_to_local") && APP_CONFIG["ldap"]["faillback_to_local"]
             # Try other authentication methods
             fail(:ldap_bind_failed)
         else
             fail!(:ldap_bind_failed)
+        end
       else
         # rubocop:disable Style/SignalException
         fail(:ldap_failed)

@@ -35,7 +35,13 @@ module Portus
         # authentication process will fail without going to the any other
         # strategy. Otherwise, login the current user into Portus (and create
         # it if it doesn't exist).
-        @ldap.bind_as(bind_options) ? portus_login! : fail!(:ldap_bind_failed)
+        if @ldap.bind_as(bind_options) 
+           portus_login! 
+        elsif !APP_CONFIG["ldap"]["faillback_to_local"].empty? && APP_CONFIG["ldap"]["faillback_to_local"]
+            # Try other authentication methods
+            fail(:ldap_bind_failed)
+        else
+            fail!(:ldap_bind_failed)
       else
         # rubocop:disable Style/SignalException
         fail(:ldap_failed)
@@ -154,8 +160,6 @@ module Portus
       if user.valid?
         session[:first_login] = true if created
         success!(user)
-      elsif !APP_CONFIG["ldap"]["faillback_to_local"].empty? && APP_CONFIG["ldap"]["faillback_to_local"]
-	fail(user.errors.full_messages.join(","))
       else
         fail!(user.errors.full_messages.join(","))
       end

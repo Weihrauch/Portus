@@ -27,8 +27,7 @@ gem "rails_stdout_logging", "~> 0.0.5", group: [:development, :staging, :product
 gem "ethon", "~> 0.9.0"
 gem "typhoeus", "~> 1.0.2"
 
-# Used to store application tokens. This is already a Rails depedency. However
-# better safe than sorry...
+# Used to store application tokens.
 gem "bcrypt"
 
 # This is already a Rails dependency, but we use it to run portusctl
@@ -73,6 +72,7 @@ unless ENV["PACKAGING"] && ENV["PACKAGING"] == "yes"
   end
 
   group :development, :test do
+    gem "rspec-rails"
     gem "byebug"
     gem "web-console", "~> 2.1.3"
     gem "puma"
@@ -86,11 +86,12 @@ unless ENV["PACKAGING"] && ENV["PACKAGING"] == "yes"
     gem "brakeman", require: false
     gem "database_cleaner"
     gem "md2man", "~>5.1.1", require: false
+    gem "binman", "~>5.1.0"
+    gem "phantomjs", "~> 2.1.1.0"
   end
 
   group :test do
     gem "shoulda"
-    gem "rspec-rails"
     gem "vcr"
     gem "webmock", require: false
     gem "simplecov", require: false
